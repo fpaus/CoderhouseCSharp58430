@@ -1,0 +1,57 @@
+﻿@page "/catalogo"
+
+<h1>Catalogo</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Marca</th>
+            <th>Precio</th>
+        </tr>
+    </thead>
+    <tbody>
+       @foreach(KeyValuePair<string, Dictionary<string, double>> producto in catalogoPetShop)
+       {
+            @foreach(KeyValuePair<string, double> marcaPrecio in producto.Value)
+            {
+                <tr>
+                    @if(marcaPrecio.Key == producto.Value.First().Key)
+                    {
+                        <th rowspan="@producto.Value.Count">@producto.Key</th>
+                    }
+                    <td>@marcaPrecio.Key</td>
+                    <td>@marcaPrecio.Value</td>
+                </tr>
+            }
+       }
+    </tbody>
+</table>
+
+
+@code {
+    private Dictionary<string, Dictionary<string, double>> catalogoPetShop = new Dictionary<string, Dictionary<string, double>>();
+
+    protected override void OnInitialized()
+    {
+        catalogoPetShop.Add("Alimentos para gatos adultos",
+        new Dictionary<string, double>{
+            { "Royal Canin", 700 },
+            { "Eukanuba", 600 },
+            { "Purina", 500 },
+            { "Fawna", 500 }
+        });
+        catalogoPetShop.Add("Alimentos para perros cachorros", 
+        new Dictionary<string, double> { 
+            { "Dog Chow", 600 },
+            { "Pro plan", 800 },
+            { "Pedigree", 700 } 
+        });
+        catalogoPetShop.Add("Alimentos para perros adultos", 
+        new Dictionary<string, double> { 
+            { "Dog Chow", 700 },
+            { "Pro plan", 900 },
+            { "Pedigree", 800 } 
+        });
+    }
+}

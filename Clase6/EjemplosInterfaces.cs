@@ -105,5 +105,13 @@ public static class EjemplosInterfaces
         I2DMedidasCalculables otraFiguraGeometrica = new Circulo(5);
         I3DMedidasCalculables otroCubo = new Cubo(6);
         otroCubo.Volumen();
+
+        I2DMedidasCalculables[] elementos = [
+            cubo, rectángulo, circulo, unaFiguraGeometrica
+            ];
+        foreach(I2DMedidasCalculables elemento in elementos)
+        {
+            Console.WriteLine(elemento.Area());
+        }
     }
 }

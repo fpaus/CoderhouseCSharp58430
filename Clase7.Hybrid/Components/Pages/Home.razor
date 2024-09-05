@@ -1,0 +1,115 @@
+﻿@page "/"
+@using Clase7.Hybrid.Entidades
+@* @inject JSRuntime JsRuntime *@
+<h1>Hola Mundo</h1>
+
+<div>
+    <p>Estas son algunas razas de perros</p>
+    <ul>
+        @if(razasDePerros != null)
+        {
+@*             @for (int i = 0; i < razasDePerros.Length; i++)
+            {
+                <li>@razasDePerros[i]</li>
+            } *@
+            @foreach(string raza in razasDePerros)
+            {
+                <li>@raza</li>
+            }
+        }
+     
+    </ul>
+</div>
+
+<div>
+    <p>La bebida mas cara de la lista es @bebidaMasCara.Nombre</p>
+</div>
+
+<div>
+    <p>Estas son algunas capitales de paises:</p>
+    <button @onclick="BuscarItem">Buscar</button>
+    <button @onclick="EliminarItem">Eliminar</button>
+    <button @onclick="ModificarItem">Modificar</button>
+    <button @onclick="Limpiar">Limpiar</button>
+    <ul>
+        @if (cuidadesPorPaises != null)
+        {
+            @foreach (KeyValuePair<string, string> ciudad in cuidadesPorPaises)
+            {
+                <li>@ciudad.Key es capital de @ciudad.Value</li>
+            }
+        }
+        
+    </ul>
+    <h2>@ciudadBuscada</h2>
+</div>
+
+@code
+{
+    private string[]? razasDePerros;
+    private Producto bebidaMasCara = new Producto();
+    private Dictionary<string, string> cuidadesPorPaises = new Dictionary<string, string>();
+    private string ciudadBuscada = String.Empty;
+
+    protected override void OnInitialized()
+    {
+        // razasDePerros[0] = "Dálmata";
+        // razasDePerros[1] = "Ovejero Alemán";
+        // razasDePerros[2] = "Salchicha";
+        // razasDePerros[3] = "Caniche";
+        // razasDePerros[4] = "Pequinés";
+        razasDePerros = [
+            "Dálmata",
+    "Ovejero Alemán",
+    "Salchicha",
+    "Caniche",
+    "Pequinés",
+    "Chihuahua"
+        ];
+
+        Producto[] bebidas = [ new(1, "Coca Cola", 28, "Gaseosa"),
+       new(2, "Manaos", 18, "Gaseosa"),
+       new(3, "Pepsi", 38, "Gaseosa"),
+       new(4, "Fanta", 26,"Gaseosa")];
+        // Producto bebidaMasCara = new Producto();
+        // for (int i = 0; i < bebidas.Length; i++)
+        // {
+        //     Producto bebida = bebidas[i];
+        foreach(Producto bebida in bebidas)
+        {
+            if(bebida.Precio > bebidaMasCara.Precio)
+            {
+                bebidaMasCara = bebida;
+            }
+        }
+
+        // Dictionary<string, string> cuidadesPorPaises = new Dictionary<string, string>();
+        cuidadesPorPaises.Add("Buenos Aires", "Argentina");
+        cuidadesPorPaises.Add("Santiago", "Chile");
+        cuidadesPorPaises.Add("Lima", "Perú");
+        cuidadesPorPaises.Add("Montevideo", "Uruguay");
+        cuidadesPorPaises.Add("Asunción", "Paraguay");
+        cuidadesPorPaises.Add("Mexico DF", "Mexico");
+        cuidadesPorPaises.Add("Brasilia", "Brasil");
+    }
+    private void BuscarItem(MouseEventArgs e)
+    {
+        if (cuidadesPorPaises.TryGetValue("Buenos Aires", out string? ciudad))
+        {
+            // JsRuntime.InvokeVoidAsync("alert", $"Buenos Aires es la capital de {ciudad}");
+            ciudadBuscada = $"Buenos Aires es la capital de {ciudad}";
+        }
+    }
+    private void EliminarItem(MouseEventArgs e)
+    {
+        cuidadesPorPaises.Remove("Buenos Aires");
+    }
+    private void ModificarItem(MouseEventArgs e)
+    {
+        cuidadesPorPaises["Lima"] = "Perú - Ciudad de los Reyes";
+    }
+    private void Limpiar(MouseEventArgs e)
+    {
+        cuidadesPorPaises.Clear();
+    }
+}
