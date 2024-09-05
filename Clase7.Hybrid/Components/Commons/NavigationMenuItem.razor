@@ -1,0 +1,24 @@
+﻿@inject NavigationManager NavigationManager
+<li class="@(_relativePath == Href ? "selected" : "")">
+	<NavLink href="@Href" Match="@Match">@ChildContent</NavLink>
+</li>
+
+@code {
+
+	[Parameter] public string Href { get; set; } = string.Empty;
+	[Parameter]
+	public RenderFragment? ChildContent { get; set; }
+	[Parameter] public NavLinkMatch Match { get; set; }
+	private string _relativePath = String.Empty;
+	protected override void OnInitialized()
+	{
+		NavigationManager.LocationChanged += LocationChanged;
+		base.OnInitialized();
+	}
+	private void LocationChanged(object sender, LocationChangedEventArgs e)
+	{
+		_relativePath = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+		base.StateHasChanged();
+	}
+
+}

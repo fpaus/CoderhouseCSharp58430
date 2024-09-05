@@ -26,11 +26,20 @@
 </div>
 
 <div>
+    <dialog open="@_showDialog">
+        <header>
+            <h3>Encontrado</h3>
+        </header>
+        <p>@ciudadBuscada</p>
+        <footer>
+            <button @onclick="_ => _showDialog = false">Cerrar</button>
+        </footer>
+    </dialog>
     <p>Estas son algunas capitales de paises:</p>
-    <button @onclick="BuscarItem">Buscar</button>
-    <button @onclick="EliminarItem">Eliminar</button>
-    <button @onclick="ModificarItem">Modificar</button>
-    <button @onclick="Limpiar">Limpiar</button>
+    <button class="default" @onclick="BuscarItem">Buscar</button>
+    <button class="danger" @onclick="EliminarItem">Eliminar</button>
+    <button class="success" @onclick="ModificarItem">Modificar</button>
+    <button class="danger" @onclick="Limpiar">Limpiar</button>
     <ul>
         @if (cuidadesPorPaises != null)
         {
@@ -41,7 +50,7 @@
         }
         
     </ul>
-    <h2>@ciudadBuscada</h2>
+
 </div>
 
 @code
@@ -50,31 +59,26 @@
     private Producto bebidaMasCara = new Producto();
     private Dictionary<string, string> cuidadesPorPaises = new Dictionary<string, string>();
     private string ciudadBuscada = String.Empty;
+    private bool _showDialog;
 
     protected override void OnInitialized()
     {
-        // razasDePerros[0] = "Dálmata";
-        // razasDePerros[1] = "Ovejero Alemán";
-        // razasDePerros[2] = "Salchicha";
-        // razasDePerros[3] = "Caniche";
-        // razasDePerros[4] = "Pequinés";
         razasDePerros = [
             "Dálmata",
-    "Ovejero Alemán",
-    "Salchicha",
-    "Caniche",
-    "Pequinés",
-    "Chihuahua"
+            "Ovejero Alemán",
+            "Salchicha",
+            "Caniche",
+            "Pequinés",
+            "Chihuahua"
         ];
 
-        Producto[] bebidas = [ new(1, "Coca Cola", 28, "Gaseosa"),
-       new(2, "Manaos", 18, "Gaseosa"),
-       new(3, "Pepsi", 38, "Gaseosa"),
-       new(4, "Fanta", 26,"Gaseosa")];
-        // Producto bebidaMasCara = new Producto();
-        // for (int i = 0; i < bebidas.Length; i++)
-        // {
-        //     Producto bebida = bebidas[i];
+        Producto[] bebidas = [ 
+            new(1, "Coca Cola", 28, "Gaseosa"),
+            new(2, "Manaos", 18, "Gaseosa"),
+            new(3, "Pepsi", 38, "Gaseosa"),
+            new(4, "Fanta", 26,"Gaseosa")
+        ];
+
         foreach(Producto bebida in bebidas)
         {
             if(bebida.Precio > bebidaMasCara.Precio)
@@ -83,7 +87,6 @@
             }
         }
 
-        // Dictionary<string, string> cuidadesPorPaises = new Dictionary<string, string>();
         cuidadesPorPaises.Add("Buenos Aires", "Argentina");
         cuidadesPorPaises.Add("Santiago", "Chile");
         cuidadesPorPaises.Add("Lima", "Perú");
@@ -96,8 +99,8 @@
     {
         if (cuidadesPorPaises.TryGetValue("Buenos Aires", out string? ciudad))
         {
-            // JsRuntime.InvokeVoidAsync("alert", $"Buenos Aires es la capital de {ciudad}");
             ciudadBuscada = $"Buenos Aires es la capital de {ciudad}";
+            _showDialog = true;
         }
     }
     private void EliminarItem(MouseEventArgs e)
