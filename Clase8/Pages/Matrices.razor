@@ -3,25 +3,28 @@
 <h3>Matrices</h3>
 
 <form>
-    <fieldset>
+    <fieldset style="display: flex; flex-wrap: wrap; justify-content: space-evenly">
+        <legend>Tamaño de la matriz</legend>
         <label for="filas">
             Filas:
-            <input type="number"
+            <input type="range"
                 id="filas"
                 name="filas" 
                 min="1"
                 max="@_maxValue" 
                 value="3"
                 @oninput="SetFilas" />
+            <small>@_filas</small>
         </label>
         <label for="columnas">
             Columnas:
-            <input type="number"
+            <input type="range"
                 id="columnas"
                 name="columnas"
                 min="1" 
                 max="@_maxValue"
                 value="3" @oninput="SetColumnas" />
+            <small>@_columnas</small>
         </label>
     </fieldset>
 </form>
