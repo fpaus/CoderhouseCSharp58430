@@ -1,0 +1,24 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<h2>Listas</h2>
+
+@foreach(string nombre in nombres)
+{
+    <p>@nombre</p>
+}
+
+@code 
+{
+    private List<string> nombres = new ();
+
+    protected override void OnInitialized()
+    {
+        nombres = ["Fabrizio", "Juan", "Pedro", "Maria", "Jose"];
+        // new List<string>
+        // {
+        //     "Fabrizio", "Juan", "Pedro", "Maria", "Jose"
+        // };
+    }
+}

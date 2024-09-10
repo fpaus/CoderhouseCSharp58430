@@ -1,0 +1,101 @@
+﻿@page "/Matrices"
+@using Clase8.Models
+<h3>Matrices</h3>
+
+<form>
+    <fieldset>
+        <label for="filas">
+            Filas:
+            <input type="number"
+                id="filas"
+                name="filas" 
+                min="1"
+                max="@_maxValue" 
+                value="3"
+                @oninput="SetFilas" />
+        </label>
+        <label for="columnas">
+            Columnas:
+            <input type="number"
+                id="columnas"
+                name="columnas"
+                min="1" 
+                max="@_maxValue"
+                value="3" @oninput="SetColumnas" />
+        </label>
+    </fieldset>
+</form>
+@if(_matriz is not null)
+{
+
+    <div class="table-responsive">
+        <table class="center">
+            <tbody>
+               @for(int i = 0; i < _filas; i++)
+               
+                {
+                    <tr>
+                    @for(int j = 0; j < _columnas; j++)
+                    {
+                      int filaActual = i;
+                      int columnaActual = j;
+                        <td>
+                            <input type="number" @oninput="e => SetValue(filaActual, columnaActual, e.Value) " />
+                        </td>
+                    }
+                    </tr>
+                }
+
+            </tbody>
+            <tfoot>
+                <tr>
+
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <pre>
+        @_matriz.ToString()
+    </pre>
+}
+
+
+
+@code {
+    private Matriz? _matriz;
+    private int _maxValue = 10;
+    private int _filas = 3;
+    private int _columnas = 3;
+
+    protected override void OnInitialized()
+    {
+        _matriz = new Matriz(_filas, _columnas);
+    }
+    private void SetFilas(ChangeEventArgs e)
+    {
+        bool isValid = int.TryParse(e.Value!.ToString(), out int result);
+        if (isValid && result <= _maxValue)
+        {
+            _filas = Convert.ToInt32(e.Value);
+            _matriz = new Matriz(_filas, _columnas);
+        }
+    }
+    private void SetColumnas(ChangeEventArgs e)
+    {
+        bool isValid = int.TryParse(e.Value!.ToString(), out int result);
+        if (isValid && result <= _maxValue)
+        {
+            _columnas = Convert.ToInt32(e.Value);
+            _matriz = new Matriz(_filas, _columnas);
+        }
+    }
+
+    private void SetValue (int fila, int columna, object valor)
+    {
+        bool isValid = int.TryParse(valor.ToString(), out int result);
+        if (isValid)
+        {
+            _matriz!.IngresarValor(fila, columna, result);
+        }
+    }
+}

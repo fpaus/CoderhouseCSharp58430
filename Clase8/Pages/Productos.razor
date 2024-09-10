@@ -1,0 +1,64 @@
+﻿@page "/Productos"
+@using Clase8.Models
+<h3>Productos</h3>
+@if(_productosConE is null || _productosConE.GetLista().Count == 0)
+{
+    <button class="default" @onclick="Cargar" >Cargar Productos</button>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="center">
+            <thead>
+                <tr>
+                    <th>Codigo</th>
+                    <th>Descripcion</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Producto producto in _productosConE.GetLista())
+                {
+                    <tr>
+                        <td>@producto.Codigo</td>
+                        <td>@producto.Descripcion</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">
+                        <button class="danger" @onclick="LimpiarLista" >Limpiar</button>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+}
+
+
+@code {
+    private ProductosConE _productosConE;
+
+    protected override void OnInitialized()
+    {
+        _productosConE = new();    
+    }
+    private void Cargar(MouseEventArgs e)
+    {
+        Producto[] productos = [
+        new (1, "Notebook Lenovo"),
+    new (2, "Monitor LG"),
+    new (3, "Mouse Genius"),
+    new (4, "Teclado Logitech"),
+    new (5, "Impresora HP"),
+    new (6, "Proc I5")
+    ];
+        _productosConE.InsertarEnLista(productos);
+    }
+
+    private void LimpiarLista(MouseEventArgs e)
+    {
+        _productosConE.LimpiarLista();
+    }
+}

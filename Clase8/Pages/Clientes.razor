@@ -1,0 +1,78 @@
+﻿@page "/Clientes"
+@using Clase8.Models
+
+<h3>Clientes</h3>
+<button class="severe" @onclick="e => Reset()" >Reset</button>
+
+<div class="table-responsive">
+    <table class="center">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Dirección</th>
+                <th>Edad</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(Cliente cliente in _mayores.GetLista())
+            {
+                <tr>
+                    <td>@cliente.Id</td>
+                    <td>@cliente.Nombre</td>
+                    <td>@cliente.Direccion</td>
+                    <td>@cliente.Edad</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td><button @onclick="ModificarCliente" class="success">Modificar</button></td>
+                <td><button @onclick="BorrarCliente" class="warning">Borrar</button></td>
+                <td><button @onclick="OrdenarClientes" class="default">Ordenar</button></td>
+                <td><button @onclick="LimpiarLista" class="danger">Limpiar</button></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+@code {
+    private ListaMayores _mayores = new();
+
+    protected override void OnInitialized()
+    {
+        Reset();
+    }
+    private void ModificarCliente(MouseEventArgs e)
+    {
+        Cliente aModificar = new(456789, "Ana Rodriguez", "Larrea 432", 70);
+        Cliente modificado = new(54752, "Ana Gimenez", "Larrea 432", 70);
+        _mayores.Modificar(aModificar, modificado);
+    }
+    private void BorrarCliente(MouseEventArgs e)
+    {
+        Cliente aBorrar = new(234567, "Maria Lopez", "Larrea 432", 45);
+        _mayores.BorrarCliente(aBorrar);
+    }
+    private void OrdenarClientes(MouseEventArgs e)
+    {
+        _mayores.OrdenarLista();
+    }
+    private void LimpiarLista(MouseEventArgs e)
+    {
+        _mayores.limpiarLista();
+    }
+    private void Reset()
+    {
+        _mayores.limpiarLista();
+        Cliente[] clientes = [
+            new (123456, "Juan Perez", "Larrea 432", 52),
+    new (567890, "Pedro Martinez", "Larrea 432", 80),
+    new (234567, "Maria Lopez", "Larrea 432", 45),
+    new (456789, "Ana Rodriguez", "Larrea 432", 70),
+    new (345678, "Carlos Gomez", "Larrea 432", 60),
+    new (678901, "Silvia Fernandez", "Larrea 432", 90)
+        ];
+        _mayores.InsertarEnLista(clientes);
+    }
+}
