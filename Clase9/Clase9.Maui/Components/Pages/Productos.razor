@@ -1,0 +1,38 @@
+﻿@page "/productos"
+
+<h3>Productos</h3>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Descripcion</th>
+            <th scope="col">Costo</th>
+            <th scope="col">PrecioVenta</th>
+            <th scope="col">Categoria</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(Producto producto in productos)
+        {
+            <tr>
+                <td scope="row">@producto.Id</td>
+                <td>@producto.Descripcion</td>
+                <td>@producto.Costo</td>
+                <td>@producto.PrecioVenta</td>
+                <td>@producto.Categoria</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private List<Producto> productos = [];
+
+    protected override void OnInitialized()
+    {
+        Database database = new Database("Data Source=10.0.2.2;Initial Catalog=Coderhouse;User ID=sa;Password=Str0ngPassword;TrustServerCertificate=True");
+
+        productos = database.GetProductos();
+    }
+}
