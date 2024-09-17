@@ -1,0 +1,53 @@
+﻿@inject NavigationManager NavigationManager
+
+<EditForm Model="Producto" OnSubmit="CrearOActualizarProducto" FormName="productos-form">
+    <div class="form-group">
+        <label for="descripcion">
+            Descripcion
+            <InputText type="text" class="form-control" id="descripcion" @bind-Value="Producto.Descripcion" />
+        </label>
+    </div>
+    <div class="form-group">
+        <label for="costo">
+            Costo
+            <InputNumber type="number" class="form-control" id="costo" @bind-Value="Producto.Costo" />
+        </label>
+    </div>
+    <div class="form-group">
+        <label for="precioVenta">
+            Precio de Venta
+            <InputNumber type="number" class="form-control" id="precioVenta" @bind-Value="Producto.PrecioVenta" />
+        </label>
+    </div>
+    <div class="form-group">
+        <label for="categoria">
+            Categoria
+            <InputText type="text" class="form-control" id="categoria" @bind-Value="Producto.Categoria" />
+        </label>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+</EditForm>
+
+@code {
+
+    private ProductosDataAccess dataAccess;
+    [Parameter]
+    public Producto Producto { get; set; }
+    protected override void OnInitialized()
+    {
+        dataAccess = new ProductosDataAccess("Data Source=10.0.2.2;Initial Catalog=Coderhouse;User ID=sa;Password=Str0ngPassword;TrustServerCertificate=True");
+    }
+    public void CrearOActualizarProducto()
+    {
+        if(Producto.Id > 0)
+        {
+            dataAccess.UpdateProducto(Producto.Id, Producto);
+        } 
+        else
+        {
+            dataAccess.InsertProducto(Producto);
+        }
+
+        NavigationManager.NavigateTo("/productos");
+    }
+}

@@ -1,0 +1,63 @@
+﻿@page "/productos"
+
+<h3>Productos</h3>
+<a href="/productos/new">
+    <button type="button" class="btn btn-success">Crear</button>
+</a>
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Descripcion</th>
+            <th scope="col">Costo</th>
+            <th scope="col">PrecioVenta</th>
+            <th scope="col">Categoria</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(Producto producto in productos)
+        {
+            <tr>
+                <td scope="row">@producto.Id</td>
+                <td>@producto.Descripcion</td>
+                <td>@producto.Costo</td>
+                <td>@producto.PrecioVenta</td>
+                <td>@producto.Categoria</td>
+                <td>
+                    <a href="/productos/@producto.Id/editar">
+                        <button type="button" class="btn btn-secondary">
+                            Editar
+                        </button>
+                    </a>
+                </td>
+                <td>
+                    <button @onclick="@(() => EliminarProducto(producto.Id))" 
+                        type="button" class="btn btn-danger">
+                        Eliminar
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private List<Producto> productos = [];
+
+    private ProductosDataAccess dataAccess;
+
+    protected override void OnInitialized()
+    {
+        dataAccess = new ProductosDataAccess("Data Source=10.0.2.2;Initial Catalog=Coderhouse;User ID=sa;Password=Str0ngPassword;TrustServerCertificate=True");
+
+        productos = dataAccess.GetProductos();
+    }
+
+    public void EliminarProducto(int id)
+    {
+        dataAccess.DeleteProducto(id);
+        productos = dataAccess.GetProductos();
+    }
+}

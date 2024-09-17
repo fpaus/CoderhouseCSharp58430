@@ -16,7 +16,8 @@ using (SqlConnection connection = new SqlConnection(connectionString))
         parameter.ParameterName = "@id";
         parameter.SqlDbType = SqlDbType.Int;
         parameter.Value = id;
-        command.Parameters.Add(parameter);
+        
+        command.ExecuteNonQuery();
 
         using (SqlDataReader reader = command.ExecuteReader()) 
         {
