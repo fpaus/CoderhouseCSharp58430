@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Clase11.Contexts;
+using Clase11.Database;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Net.WebSockets;
 
 namespace Clase11
 {
@@ -15,6 +19,12 @@ namespace Clase11
                 });
 
             builder.Services.AddMauiBlazorWebView();
+           
+            builder.Services.AddDbContext<CoderhouseDbContext>(
+                options => options.UseSqlServer("Data Source=10.0.2.2;Initial Catalog=Preparacion;User ID=sa;Password=Str0ngPassword;TrustServerCertificate=True")
+                );
+
+            builder.Services.AddScoped<ProductosDataAccess>();
 
 #if DEBUG
     		builder.Services.AddBlazorWebViewDeveloperTools();

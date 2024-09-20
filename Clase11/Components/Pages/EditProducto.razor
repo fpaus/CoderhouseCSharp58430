@@ -1,4 +1,5 @@
 ﻿@page "/productos/{id:int}/editar"
+@inject ProductosDataAccess dataAccess
 
 <h3>EditProducto</h3>
 
@@ -12,7 +13,7 @@ else
 }
 
 @code {
-    private ProductosDataAccess dataAccess;
+
     [Parameter]
     public int Id { get; set; }
 
@@ -20,7 +21,7 @@ else
 
     protected override void OnInitialized()
     {
-        dataAccess = new ProductosDataAccess();
+
         Producto = dataAccess.GetOneProducto(Id);
     }
 }

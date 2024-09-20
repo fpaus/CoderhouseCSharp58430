@@ -15,11 +15,6 @@ public class CoderhouseDbContext : DbContext
     //public CoderhouseDbContext(DbContextOptions<CoderhouseDbContext> options)
     //    : base(options) { }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlServer(
-            "Data Source=10.0.2.2;Initial Catalog=Coderhouse;User ID=sa;Password=Str0ngPassword;TrustServerCertificate=True"
-        );
-    }
+    
 }
 

@@ -8,9 +8,9 @@ public class ProductosDataAccess
 {
     private CoderhouseDbContext _context;
 
-    public ProductosDataAccess()
+    public ProductosDataAccess(CoderhouseDbContext context)
     {
-        _context = new CoderhouseDbContext();
+        _context = context;
     }
     public void UpdateProducto(int id, Producto producto)
     {
