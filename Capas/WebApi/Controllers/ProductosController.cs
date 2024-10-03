@@ -18,10 +18,13 @@ namespace WebApi.Controllers
         }
 
         [HttpGet(Name = "Get Productos")]
-        public ActionResult<List<Producto>> GetProductos()
+        public ActionResult<List<Producto>> GetProductos([FromQuery(Name = "filtro")] string? filtro)
         {
-
-            return _productosService.GetProductos();
+            if(filtro == null)
+            {
+                return _productosService.GetProductos();
+            }
+            return _productosService.GetProductosBy(filtro);
         }
 
         [HttpGet("{id}")]
@@ -35,5 +38,34 @@ namespace WebApi.Controllers
             }
             return producto;
         }
+
+        [HttpPost]
+        public ActionResult<Producto> CrearProducto([FromBody] Producto producto)
+        {
+            var productoCreado = _productosService.InsertProducto(producto);
+            return CreatedAtAction(nameof(GetProducto), new { id = productoCreado.Id }, producto);
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult ModificarProducto([FromRoute(Name = "id")] int id, [FromBody] Producto producto)
+        {
+            _productosService.UpdateProducto(id, producto);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteProducto([FromRoute(Name = "id")] int id)
+        {
+            _productosService.DeleteProducto(id);
+            return NoContent();
+        }
+
+        [HttpPut("fix-total")]
+        public ActionResult FixTotalProductos()
+        {
+            _productosService.UpdateTotalProductos();
+            return NoContent();
+        }
+
     }
 }

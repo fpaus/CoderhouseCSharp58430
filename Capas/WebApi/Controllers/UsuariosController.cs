@@ -19,14 +19,17 @@ namespace WebApi.Controllers
         }
 
         [HttpGet(Name = "Get Usuarios")]
-        public ActionResult<List<Usuario>> GetUsuarios()
+        public ActionResult<List<Usuario>> GetUsuarios([FromQuery(Name = "filtro")] string? filtro)
         {
-
-            return _usuariosService.GetUsuarios();
+            if(filtro == null)
+            {
+                return _usuariosService.GetUsuarios();
+            }
+            return _usuariosService.GetUsuariosBy(filtro);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Usuario> GetUsuario(int id)
+        public ActionResult<Usuario> GetUsuario([FromRoute(Name = "id")] int id)
         {
             _logger.LogInformation("Consultando por el producto con id {id}", id);
             var usuario = _usuariosService.GetOneUsuario(id);
@@ -35,6 +38,25 @@ namespace WebApi.Controllers
                 return NotFound();
             }
             return usuario;
+        }
+
+        [HttpPost]
+        public ActionResult<Usuario> CrearUsuario([FromBody] Usuario usuario) {
+            var usuarioCreado = _usuariosService.InsertUsuario(usuario);
+            return CreatedAtAction(nameof(GetUsuario), new { id = usuarioCreado.Id }, usuario);
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult ModificarUsuario([FromRoute(Name = "id")] int id, [FromBody] Usuario usuario) { 
+            _usuariosService.UpdateUsuario(id, usuario);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteUsuario([FromRoute(Name = "id")] int id)
+        {
+            _usuariosService.DeleteUsuario(id);
+            return NoContent();
         }
     }
 }

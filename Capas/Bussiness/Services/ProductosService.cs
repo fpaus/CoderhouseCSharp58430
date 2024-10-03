@@ -28,9 +28,9 @@ public class ProductosService
         return _productosDataAccess.GetOneProducto(id);
     }
 
-    public void InsertProducto(Producto producto)
+    public Producto InsertProducto(Producto producto)
     {
-        _productosDataAccess.InsertProducto(producto);
+        return _productosDataAccess.InsertProducto(producto);
     }
 
     public void UpdateProducto(int id, Producto producto)

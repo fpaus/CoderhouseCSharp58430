@@ -20,9 +20,9 @@ else
   [Parameter]
   public int Id { get; set; }
 
-  protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
   {
-    usuario = UsuariosService.GetOneUsuario(Id);
+    usuario = await UsuariosService.GetOneUsuario(Id);
   }
 
 

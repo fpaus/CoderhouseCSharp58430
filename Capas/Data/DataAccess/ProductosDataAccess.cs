@@ -28,10 +28,11 @@ private readonly CoderhouseContext _context;
         return _context.Productos.FirstOrDefault(p => p.Id == id);
     }
 
-    public void InsertProducto(Producto producto)
+    public Producto InsertProducto(Producto producto)
     {
         _context.Productos.Add(producto);
         _context.SaveChanges();
+        return producto;
     }
 
     public void UpdateProducto(int id, Producto producto)

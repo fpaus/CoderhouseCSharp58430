@@ -61,19 +61,19 @@
 
   private string buscar = string.Empty;
 
-  protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
   {
-    usuarios = UsuariosService.GetUsuarios();
+    usuarios = await UsuariosService.GetUsuarios();
   }
 
-  private void EliminarUsuario(int id)
+    private async Task EliminarUsuario(int id)
   {
-    UsuariosService.DeleteUsuario(id);
-    usuarios = UsuariosService.GetUsuarios();
+    await UsuariosService.DeleteUsuario(id);
+    usuarios = await UsuariosService.GetUsuarios();
   }
 
-  private void BuscarUsuario()
+    private async Task BuscarUsuario()
   {
-    usuarios = UsuariosService.GetUsuariosBy(buscar);
+    usuarios = await UsuariosService.GetUsuariosBy(buscar);
   }
 }

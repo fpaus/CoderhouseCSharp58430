@@ -1,12 +1,22 @@
+using UI.ClientServices;
 using UI.Components;
-using Bussiness;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.ConfigureBussinessLayer();
+builder.Services.AddTransient<ProductosService>();
+builder.Services.AddTransient<UsuariosService>();
+
+builder.Services.AddHttpClient<UsuariosService>(
+    client => client.BaseAddress = new Uri($"{builder.Configuration["ApiUrl"]}/api/Usuarios/")
+    );
+
+builder.Services.AddHttpClient<ProductosService>(
+    client => client.BaseAddress = new Uri($"{builder.Configuration["ApiUrl"]}/api/Productos/")
+    );
 
 var app = builder.Build();
 

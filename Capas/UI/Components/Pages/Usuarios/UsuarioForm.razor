@@ -39,12 +39,12 @@
   {
   }
 
-  private void SubmitUsuario()
+  private async Task SubmitUsuario()
   {
     if (Usuario.Id == 0)
-      UsuariosService.InsertUsuario(Usuario);
+     await UsuariosService.InsertUsuario(Usuario);
     else
-      UsuariosService.UpdateUsuario(Usuario.Id, Usuario);
+     await UsuariosService.UpdateUsuario(Usuario.Id, Usuario);
 
     NavigationManager.NavigateTo("/usuarios");
   }

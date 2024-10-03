@@ -18,8 +18,11 @@ public class CoderhouseContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(
+        if(!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlServer(
             "Data Source=10.0.2.2;Initial Catalog=CoderhouseCapas;User ID=sa;Password=Str0ngPassword;TrustServerCertificate=True"
         );
+    }    
     }
 }
